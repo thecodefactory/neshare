@@ -1,0 +1,60 @@
+
+
+NESHARE 0.2.6 RELEASE NOTES:
+----------------------------
+Changes:
+- code now honors std namespace (and now gcc-3.x compliant)
+- changed the initial max num peers to be 5 instead of 0
+- stability fixes for peer handling of disconnected peers
+  (no longer try to remove already removed peers)
+- properly compile on freebsd and openbsd due to compatible pthread
+  configure and ncMutex checks
+- added proper ChangeLog entries
+
+	
+NESHARE 0.2.5 RELEASE NOTES:
+----------------------------
+Changes:
+- Added a AC_PREREQ(2.50) line configure.in; requiring autoconf 2.53
+- Added server generation of config file with default values if one
+  does not exist.  Server will warn admin and exit so that the admin
+  has a chance to edit the file before running with the default config.
+- A new method for storing the neUserFile objects has been implemented
+  using a 'disk mem allocator' which stores and executes all of
+  these objects (which ordinarily use quite a bit of RAM) from disk.
+  The files are mmap'd into memory and used as normal - making the
+  code base changes rather minimal.
+- Added two config file options:
+  USERFILEPAGEFILE - which is a base file template for storing the
+  neUserFile objects on disk, and
+  NUMRESERVEDUSERFILES - which specifies the initial amount to
+  allocate on disk (even though the disk mem allocator is growable, a
+  large initial setting will avoid later run-time performance hits)
+- Added a reference counting keyword manager (and keyword object) so
+  that all enries will be composed of the same keywords when they are
+  are in common.
+- Fixed many memory leaks, although many still exist.
+- Swapped out the MD5 implementation; will be testing endianess issues
+- Fixed many crash bugs (possible strlen on null ptr error)
+- Fixed a crash bug in nesyslog unregister method
+- Fixed a bug in the client and server that didn't properly remove
+  peers and users, respectively, that had polling errors
+- Added a TTL on connected peers (similar to connected users on the
+  server side)
+- Added removal of peers on error or timeout.
+- Fixed a subtle, yet ultra-important polling bug found both in the
+  server and the client.
+
+	
+NESHARE 0.2.4 RELEASE NOTES:
+----------------------------
+Changes:
+- Fixed a crash bug in the client library regarding the use of a stack
+  based variable which performs better when dynamically allocated.
+- Added a server side per-user write lock to make sure that no messages
+  are intermixed in the data stream when sent from the server to a
+  given user.
+- Fixed a crash bug that could try to send a search result from an
+  entry that's been invalidated (by the removal of the user by another
+  thread before result sending has been compelted)
+

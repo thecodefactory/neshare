@@ -1,0 +1,51 @@
+2002-06-02 16:42  neillm
+
+	* neserverutils.cpp, neshareserverthreads.cpp: Cosmetic header
+	changes.
+
+2002-05-30 18:36  neillm
+
+	* neserverheaders.h: Wrapped the neClientConnection::initialize
+	method with the m_callMutex.  Minor, cosmetic changes elsewhere.
+
+2002-05-19 00:23  neillm
+
+	* Makefile.in, neserverutils.cpp, neusermanager.cpp: Changed upload
+	and download callbacks to work on a rough time basis so that they
+	will not be called too often (which hurts performance).
+
+2002-04-21 19:02  neillm
+
+	* neshareserver.cpp: Added the new logging system to the client
+	library.  Minor changes elsewhere.
+
+2002-04-20 18:54  neillm
+
+	* Makefile.in, neshareserver.cpp, neshareserverthreads.cpp: Cleaned
+	up several header files and the configure.in file.  Cleaned up the
+	logging system's outputted messages.
+
+2002-04-14 19:18  neillm
+
+	* config, neserverutils.cpp, neshareserver.cpp,
+	neshareserverthreads.cpp, neuserfilelist.cpp, neusermanager.cpp:
+	Added the new server option for allowing the output to be logged to
+	a specified file.  Also moved code over to the new logging system.
+
+2002-04-04 18:07  neillm
+
+	* Makefile.am, Makefile.in, config, neserverheaders.h,
+	neserverutils.cpp, neshareserver.cpp, neshareserverthreads.cpp,
+	neshareserverthreads.h, neuser.cpp, neuser.h, neuserfile.cpp,
+	neuserfile.h, neuserfilelist.cpp, neuserfilelist.h,
+	neusermanager.cpp, neusermanager.h: Initial revision
+
+2002-04-04 18:07  neillm
+
+	* Makefile.am, Makefile.in, config, neserverheaders.h,
+	neserverutils.cpp, neshareserver.cpp, neshareserverthreads.cpp,
+	neshareserverthreads.h, neuser.cpp, neuser.h, neuserfile.cpp,
+	neuserfile.h, neuserfilelist.cpp, neuserfilelist.h,
+	neusermanager.cpp, neusermanager.h: Initial add into Sourceforge
+	CVS repository.
+

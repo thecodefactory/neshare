@@ -1,0 +1,92 @@
+###################################
+# NEshare Server Configuration File
+###################################
+
+# Specifies the full path to the log file which this
+# server will dump log output to
+SERVERLOG = neshare.log
+
+# Defines the maximum number of users this server will allow.
+MAXNUMUSERS = 384
+
+# Defines the maximum number of threaded handlers to start.
+# Threaded handlers are basically threads in a thread pool
+# used for handling 'expensive' operations to offload work
+# from the main server listener thread in order to keep it
+# more responsive when messages are flooding in.
+# For a server handling heavier loads, bump this value up
+# to a reasonable limit.  It is configured to a default which
+# may not handle the expected load of your server.
+NUMTHREADEDHANDLERS = 4
+
+# Defines a maximum number of threaded user managers to start.
+# A User Manager is a logical grouping of connected users and is
+# used primarily for dividing up the users, reading messages from
+# their sockets, and placing the messages into the threaded
+# handler message queues.  The number of user managers should
+# generally be no more than the number of threaded handlers, but
+# you are free to experiment for your server load.
+NUMUSERMANAGERS = 4
+
+# Defines the maximum number of sequential messages on a single
+# user to handle at once.  This essentially prioritizes the
+# current user at the expense of all other users if it set high.
+# 1 is the default, but you can experiment with other values.
+MAXNUMMESSAGESTOHANDLE = 1
+
+# Defines the maximum amount of time the server will wait
+# for a connected client to send I/O before disconnecting.
+# NOTE: Make sure this value is NOT higher than the
+# USERPINGDELAY option so that an idle (yet properly connected
+# connected client can remain a part of the network for
+# extended periods of time).
+# This value is in seconds.
+USERTTL = 180
+
+
+# Defines how often this server wants to ping each connected
+# client.  A pong message from the client is expected, so
+# setting this value too low will create unnecessary traffic.
+# This value is in seconds.
+USERPINGDELAY = 1
+
+
+# Defines how often the server should send out status
+# information to all connected clients.  This includes the
+# number of users, the number of shared files, and the
+# number of MBs connected users are sharing.
+USERSTATUSDELAY = 1
+
+
+# This limits the number of search results sent back to
+# any user for any query.
+MAXRESULTS = 3000
+
+
+# Defines the port that this server should listen on.
+SERVERACCEPTPORT = 12414
+
+
+# Rejects users that share less than this number of MB
+# 0 means that there is no limit
+# i.e. if set to 100, a new user trying to share less
+# than 100 MBs of files will be rejected.
+MINUSERSHAREDFILELIMIT = 0
+
+
+# Now supported (as of neshare-0.2.2).
+# If not specified, simple default messages are used.
+#GOODBYEMESSAGEFILE = goodbye.txt
+#GREETINGMESSAGEFILE = greeting.txt
+#LOGINFAILEDMESSAGEFILE = loginfailed.txt
+#INVALIDMESSAGETYPEFILE = invalidmessage.txt
+GREETINGMESSAGEFILE = greeting.txt
+
+# The userfilepagefile is a file that the neshareserver
+# uses during runtime.  Please specify this if you're
+# running neshareserver-0.2.5 or above.
+# For performance reasons, it may benefit to have this
+# file reside on a ram disk.
+USERFILEPAGEFILE = /tmp/ufpage
+#USERFILEPAGEFILE = /dev/shm/ufpage
+NUMRESERVEDUSERFILES = 100000

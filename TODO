@@ -1,0 +1,104 @@
+NOT FINISHED ---
+
+- Added config options for USERMSGTHROTTLE, MAXNUMSENDS, MAXNUMRECVS
+- Added support for per peer errors.  If a single peer causes to many errors,
+  it will be disconnected promptly.  This is similar to how the server handles
+  connected user errors.
+
+TODO ---
+
+- Introduce a version msg that can be used to query the NEshare
+  protocol(s) supported
+- Implement a configurable 'max num sends' and 'max num recvs' config option?
+
+***NESGUI***
+- Add queues to NEsGUI so that 'max num sends' and 'max num recvs' are honored
+- Server: add 'max num messages per user per second' before disconnect (?)
+- More thoroughly test cancellations (both of ULs and DLs)
+- Add a 'download to folder' option
+
+FUTURE TODO (0.3.0):
+
+Server related issues:
+
+- Add protocol versioning to protocol
+- Add bulk entry uploading (server would have to extend the max
+  buffer length specifically for the entry/group messages)
+- Should change protocol to send number of results sent *after* server
+  is finished sending results, in the case that the server does not
+  not send as many as advertised up front (in the case of user
+  invalidation) -- NOTE: Not necessary since client should filter out
+  NULL results sent from server.
+
+
+POSSIBLE IDEA:
+--------------
+To conserve memory - have a global neKeyword object for each keyword stored
+in server RAM.  Everything (i.e. neUserFile objects) will store a list
+of pointers to these objects instead of each one having their own copy.
+
+With this in place, the disk allocator can be removed and memory should be
+uniformly conserved on the server end.
+
+MAP keywords to ref_counts?  Delete on zero-count?
+would need manual addref and dropref calls in this case.
+--------------
+
+
+Client library related issues:
+
+- make sure the client can actually download files (as that appears
+  to be broken)
+- fix the md5 checksum problem on different platforms
+- test extensively to make sure a single faulty client cannot crash
+  the server and take down all other clients
+- make sure that a faulty client can't crash another client that it's
+  connected to
+
+- test, test, test (find testers?)
+- debug, debug, debug
+
+
+
+
+NOTES for neshare-0.2.5 release:
+--------------------------------
+
+Need to track down the UNACCEPTABLE memory
+leak that plagues the server!!
+
+(Keep a global unsigned long for total bytes allocated
+and total bytes freed - along with debug statements, the
+leak should show itself)
+
+Need to test/fix the client library with multiple nesgui clients
+to ensure that file transfers can work still.
+
+Need also to fix the alternate platform md5 checksum error. 
+
+
+NOTES for neshare-0.2.6 release:
+--------------------------------
+
+When adding a per user write lock, I should also add a "isTokenOK"
+method which checks a state machine of expected token types (??).
+Maybe have a "setNextStateOnValidToken" method. (OR just jam it into
+the isTokenOK method)
+
+That way, if a user gets a message that it should not be getting, the
+server can gracefully disconnect the user forcefully for a protocol
+violation instead of worrying about crashing.
+
+This should help prevent fake or malicious clients.
+
+
+NOTES for neshare-0.2.7 release:
+--------------------------------
+
+Add a server configurable check to LIMIT the max number of enries a
+user can upload to the server.  If there are more than this limit,
+disconnect the user (or send them an error message and renogotiate?)
+This should probably wait until the next iteration of the protocol is
+worked in (with the entry_set_start_ack messages and what not)
+
+

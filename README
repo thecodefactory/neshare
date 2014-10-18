@@ -1,0 +1,102 @@
+ ----------------------
+         NEshare
+ ----------------------
+
+
+Using the NEshare (0.2.3+) libraries with your projects
+=======================================================
+
+Include the following lines in your project's configure.in file:
+
+dnl ----------------------------------
+dnl start neshare related checks here
+dnl ----------------------------------
+NESHARE_PATH=""
+
+AC_ARG_WITH(neshare,
+            [  --with-neshare=DIR      path to installed neshare package],
+            NESHARE_PATH=$withval,
+            NESHARE_PATH="/usr/local")
+
+AC_CHECK_FILE("$NESHARE_PATH/include/neclientheaders.h", ,
+   AC_MSG_ERROR("cannot find neclientheaders.h header file."))
+
+AC_CHECK_FILE("$NESHARE_PATH/include/neserverheaders.h", ,
+   AC_MSG_ERROR("cannot find neserverheaders.h header file."))
+
+AC_CHECK_FILE("$NESHARE_PATH/include/necommonheaders.h", ,
+   AC_MSG_ERROR("cannot find necommonheaders.h header file."))
+
+AC_CHECK_FILE("$NESHARE_PATH/lib/libnescommon.la", ,
+   AC_MSG_ERROR("cannot find neshare common library."))
+
+AC_CHECK_FILE("$NESHARE_PATH/lib/libnesclient.la", ,
+   AC_MSG_ERROR("cannot find neshare client library."))
+
+AC_SUBST(NESHARE_PATH)
+dnl ----------------------------------
+dnl end neshare related checks here
+dnl ----------------------------------
+
+Also, add the appropriate lines in your Makefile.am files along the
+lines of this:
+
+INCLUDES = -I@NESHARE_PATH@/include \
+           other-include-dirs/
+
+main_LDADD = -L@NESHARE_PATH@/lib -lnesclient -lnescommon \
+             other-libs-here
+
+
+Using the NEshare server
+========================
+Copy the file named config from ./ne_server/config to the same directory as
+the neshareserver binary.  Customize it for your own server and run the
+neshareserver.
+
+You can test the server with the test client located at 
+./ne_clienttest/neshare_client
+
+For information on running your own server, please go to:
+
+http://www.thecodefactory.org/neshare/serverdocs.php3
+
+As of neshare-0.2.5, a default config file will be generated if you run the
+neshareserver.  It require you to re-run the server so that you may have a
+change to edit the default settings for your environment.
+
+Documentation
+=============
+
+Protocol Documentation: please refer to protocol.sxw (OpenOffice document)
+Class Documentation: please refer to classdocs.sxw (OpenOffice document)
+
+NEshare is a Peer-to-Peer file sharing toolkit started by Neill Miller
+in free time. The implementation I've written is from scratch in C++
+and is distributed under the terms of the GNU General Public License
+(GPL). Similarly, the protocol is distributed Freely, as well as
+various libraries for integrating the peer-to-peer functionality into
+your own applications easily. 
+
+NEshare stands for two things really. First, it's a credit to myself
+for attempting to make it happen. My name is Neill, so the "NE" is
+from my name. Needless to say, there's a cute pun in the name because
+the "NE" is also pronounced any - which implies that any kind of file
+can be shared using the protocol and the toolkit.
+
+NEshare has been tested on GNU/Linux systems running on x86 (Intel and
+AMD) and PowerPC (Motorola/Apple PPC) architectures.
+
+Project Homepage:
+http://www.thecodefactory.org/neshare/
+OR
+http://neshare.sourceforge.net
+
+NEshare uses a thin networking and thread library also written by Neill Miller
+called NetClass.
+
+NetClass Homepage:
+http://netclass.sourceforge.net
+
+Enjoy!
+Contact: neillm@thecodefactory.org
